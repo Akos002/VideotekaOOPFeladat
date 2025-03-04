@@ -1,59 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VideotekaOOP
+﻿namespace goz
 {
     internal class Felhasznalo
     {
         public string Nev { get; set; }
-        public List<Film> KolcsonzottFilmek { get; set; }
+        public int Egyenleg { get; set; }
+        public List<Jatek> Konyvtar { get; set; }
 
-        public Felhasznalo(string nev)
+        public Felhasznalo(string nev, int egyenleg)
         {
             this.Nev = nev;
-            KolcsonzottFilmek = new List<Film>();
+            Konyvtar = new List<Jatek>();
+            Egyenleg = egyenleg;
         }
 
-        public bool Kolcsonoz(Film film)
+        public bool Vasarlas(Jatek jatek)
         {
-
-            if (KolcsonzottFilmek.Count >= 3)
+            if (Konyvtar.Any(i => i.Cim == jatek.Cim))
             {
-                Console.WriteLine("Maximum 3 film kölcsönözhető egyszerre.");
+                Console.WriteLine("A játék már a könyvtáradban van!");
                 return false;
             }
-            else if (film.Kolcsonozve)
+            else if (Egyenleg < jatek.Ar)
             {
-                Console.WriteLine($"A(z) {film.Cim} című film ki van kölcsönözve.");
+                Console.WriteLine($"A(z) {jatek.Cim} című játék megvásárlásához nincs elég pénzed!");
                 return false;
             }
             else
             {
-                film.Kolcsonzes();
-                KolcsonzottFilmek.Add(film);
-                Console.WriteLine($"A(z) {film.Cim} című film kikölcsönözve.");
+                Egyenleg -= jatek.Ar;
+                Konyvtar.Add(jatek);
+                Console.WriteLine($"A(z) {jatek.Cim} című játék megvásárlása sikeres.");
                 return true;
             }
         }
 
-        public bool Visszaad(Film film)
+        public void KonyvtarMegtekintes()
         {
-            if (!KolcsonzottFilmek.Contains(film))
+            Console.WriteLine("Megvásárolt játékok:");
+            foreach (var jatek in Konyvtar)
             {
-                Console.WriteLine("A film nincs kikölcsönözve.");
-                return false;
-            }
-            else
-            {
-                film.Visszavetel();
-                KolcsonzottFilmek.Remove(film);
-                Console.WriteLine($"A(z) {film.Cim} visszavétele sikeres.");
-                return true;
+                Console.WriteLine($"- {jatek.Cim}");
             }
         }
 
+        public void Feltoltes(int osszeg)
+        {
+            Egyenleg += osszeg;
+            Console.WriteLine($"Egyenleg feltöltve: +{osszeg} Ft");
+        }
     }
 }

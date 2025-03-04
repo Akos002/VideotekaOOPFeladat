@@ -4,36 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VideotekaOOP
+namespace goz
 {
-    internal class Videoteka
+    internal class Jatekbolt
     {
-        public List<Film> Filmek { get; private set; }
-        public List<Felhasznalo> Felhasznalok { get; private set; }
+        public List<Jatek> Jatekok { get; set; }
+        public List<Felhasznalo> Felhasznalok { get; set; }
 
-        public Videoteka()
+        public Jatekbolt()
         {
-            Filmek = new List<Film>();
+            Jatekok = new List<Jatek>();
             Felhasznalok = new List<Felhasznalo>();
         }
 
-        public void FilmHozzaad(Film film)
+        public void JatekHozzaad(Jatek jatek)
         {
-            Filmek.Add(film);
+            Jatekok.Add(jatek);
         }
 
-        public void FelhasznaloHozzaad(Felhasznalo felhasznalo)
+        public void FelhasznaloHozzaadas(Felhasznalo felhasznalo)
         {
             Felhasznalok.Add(felhasznalo);
         }
 
-        public Film KeresFilm(string cim)
+        public Jatek KeresJatek(string cim)
         {
-            foreach (var film in Filmek)
+            foreach (var jatek in Jatekok)
             {
-                if (film.Cim == cim)
+                if (jatek.Cim == cim)
                 {
-                    return film;
+                    return jatek;
                 }
             }
             return null;
